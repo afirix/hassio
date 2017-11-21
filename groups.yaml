@@ -1,0 +1,9 @@
+default_view:
+  view: yes
+  icon: mdi:home
+  entities:
+    - group.master_bedroom
+master_bedroom:
+  name: Master Bedroom
+  entities:
+    - switch.aeotec_zw116_nano_switch_master_bedroom_switch
