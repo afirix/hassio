@@ -1,0 +1,13 @@
+switch.aeotec_zw116_nano_switch_master_bedroom_switch:
+  icon: mdi:lightbulb-outline
+  friendly_name: Master Bedroom Ceiling Lights
+switch.leviton_dz15s1bz_switch_guest_bedroom_switch:
+  icon: mdi:lightbulb-outline
+  friendly_name: Guest Bedroom Ceiling Lights
+switch.leviton_dzr151rz_outlet_living_room_switch:
+  icon: mdi:lightbulb-outline
+  friendly_name: Sofa Side Light
+sensor.alexey_phone_battery:
+  icon: mdi:battery
+sensor.yulia_phone_battery:
+  icon: mdi:battery

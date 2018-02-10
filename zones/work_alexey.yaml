@@ -1,0 +1,5 @@
+name: Alexey's Work
+latitude: !secret work_alexey_latitude
+longitude: !secret work_alexey_longitude
+radius: 300
+icon: mdi:amazon

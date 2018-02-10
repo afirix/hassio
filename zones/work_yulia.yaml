@@ -1,0 +1,5 @@
+name: Yulia's Work
+latitude: !secret work_yulia_latitude
+longitude: !secret work_yulia_longitude
+radius: 400
+icon: mdi:google

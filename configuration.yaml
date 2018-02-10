@@ -2,10 +2,10 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: !secret latitude
-  longitude: !secret longitude
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: !secret elevation
+  elevation: !secret home_elevation
   # metric for Metric, imperial for Imperial
   unit_system: imperial
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -23,8 +23,8 @@ frontend:
 config:
 
 http:
-  base_url: aenetwork.dynu.net:9595
-  server_port: 9595
+  base_url: !secret http_base_url
+  server_port: !secret http_server_port
   api_password: !secret http_password
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
@@ -57,12 +57,7 @@ map:
 sun:
 
 # Weather prediction
-sensor:
-  - platform: wunderground
-    api_key: !secret wunderground_api_key
-    monitored_conditions:
-      - alerts
-      - temp_c
+sensor: !include_dir_list sensors/
 
 # Text to speech
 tts:
@@ -75,11 +70,26 @@ script: !include scripts.yaml
 # Z-Wave
 zwave:
   usb_path: /dev/ttyACM0
+  network_key: !secret zwave_network_key
+  polling_interval: 10000
+  device_config:
+    switch.aeotec_zw116_nano_switch_master_bedroom_switch:
+      refresh_value: true
+      delay: 7
+      polling_intensity: 1
+    switch.leviton_dz15s1bz_switch_guest_bedroom_switch:
+      refresh_value: true
+      delay: 4
+      polling_intensity: 1
+    switch.leviton_dzr151rz_outlet_living_room_switch:
+      refresh_value: true
+      delay: 4
+      polling_intensity: 1
 
 # Emulated Hue
 emulated_hue:
-  host_ip: 192.168.1.20
-  listen_port: 8300
+  host_ip: !secret pi_ip
+  listen_port: !secret hue_bridge_port
   expose_by_default: true
   exposed_domains: switch
 
@@ -92,3 +102,44 @@ media_player:
 #  - platform: denonavr
 #    host: denon.home
 #    name: denon
+
+ios:
+
+# MQTT
+mqtt:
+  broker: core-mosquitto
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+
+# Device Tracking
+device_tracker:
+  - platform: owntracks
+    max_gps_accuracy: 500
+  - platform: ddwrt
+    host: !secret router_ip
+    username: !secret router_username
+    password: !secret router_password
+    consider_home: 420
+    interval_seconds: 15
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.mqtt: debug
+
+panel_iframe:
+  terminal:
+    title: Terminal
+    icon: mdi:console
+    url: !secret terminal_url
+  ide:
+    title: IDE
+    icon: mdi:code-braces
+    url: !secret ide_url
+
+zone: !include_dir_list zones/
+
+notify:
+  platform: html5
+  gcm_api_key: !secret gcm_api_key
+  gcm_sender_id: !secret gcm_sender_id

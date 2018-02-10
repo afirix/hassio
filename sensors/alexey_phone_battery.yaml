@@ -1,0 +1,5 @@
+platform: mqtt
+state_topic: "owntracks/alexey/motoe4"
+name: "Alexey Phone Battery"
+unit_of_measurement: "%"
+value_template: "{{ value_json.batt }}"
